@@ -115,9 +115,9 @@ export default async function DashboardPage() {
             <span className="text-xs text-muted-foreground">{progress}%</span>
           </CardContent>
         </Card>
-        <Card className="animate-fade-in-up stagger-4">
+        <div className="animate-fade-in-up stagger-4">
           <GpaWidget gpa={gpa} targetGpa={user.targetGpa} />
-        </Card>
+        </div>
       </div>
 
       <div className="grid gap-4 lg:grid-cols-4">

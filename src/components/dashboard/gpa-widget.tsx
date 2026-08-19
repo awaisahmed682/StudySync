@@ -22,23 +22,26 @@ export function GpaWidget({
         <CardTitle className="text-sm font-medium">Estimated GPA</CardTitle>
         <CardDescription>Target: {targetGpa.toFixed(2)}</CardDescription>
       </CardHeader>
-      <CardContent className="flex items-baseline gap-2">
-        <div className="text-3xl font-bold">{gpa == null ? "—" : gpa.toFixed(2)}</div>
-        {delta != null &&
-          (delta >= 0 ? (
-            <span className="flex items-center gap-1 text-xs font-medium text-emerald-600">
-              <TrendingUp className="h-3.5 w-3.5" />
-              {delta.toFixed(2)} above target
-            </span>
-          ) : (
-            <span className="flex items-center gap-1 text-xs font-medium text-destructive">
-              <TrendingDown className="h-3.5 w-3.5" />
-              {Math.abs(delta).toFixed(2)} below target
-            </span>
-          ))}
+      <CardContent className="space-y-1">
+        <div className="text-3xl font-bold leading-none">{gpa == null ? "—" : gpa.toFixed(2)}</div>
+        {delta != null && (
+          <div className="flex items-center gap-1 text-xs font-medium">
+            {delta >= 0 ? (
+              <span className="flex items-center gap-1 whitespace-nowrap text-emerald-600 dark:text-emerald-400">
+                <TrendingUp className="h-3.5 w-3.5 shrink-0" />
+                {delta.toFixed(2)} above target
+              </span>
+            ) : (
+              <span className="flex items-center gap-1 whitespace-nowrap text-destructive">
+                <TrendingDown className="h-3.5 w-3.5 shrink-0" />
+                {Math.abs(delta).toFixed(2)} below target
+              </span>
+            )}
+          </div>
+        )}
         {delta == null && (
-          <span className="flex items-center gap-1 text-xs text-muted-foreground">
-            <ArrowUpDown className="h-3.5 w-3.5" />
+          <span className="flex items-center gap-1 whitespace-nowrap text-xs text-muted-foreground">
+            <ArrowUpDown className="h-3.5 w-3.5 shrink-0" />
             Add grades to estimate
           </span>
         )}

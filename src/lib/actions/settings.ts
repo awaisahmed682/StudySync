@@ -19,6 +19,7 @@ export async function updateSettings(
     pomodoroWork: formData.get("pomodoroWork") || 25,
     pomodoroBreak: formData.get("pomodoroBreak") || 5,
     digestEnabled: formData.get("digestEnabled") === "true" || formData.get("digestEnabled") === "on",
+    emailEnabled: formData.get("emailEnabled") === "true" || formData.get("emailEnabled") === "on",
     reminderLead24h: formData.get("reminderLead24h") === "true" || formData.get("reminderLead24h") === "on",
     reminderLead3h: formData.get("reminderLead3h") === "true" || formData.get("reminderLead3h") === "on",
     reminderLead1h: formData.get("reminderLead1h") === "true" || formData.get("reminderLead1h") === "on",

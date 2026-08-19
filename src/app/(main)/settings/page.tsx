@@ -30,6 +30,7 @@ export default async function SettingsPage() {
           pomodoroWork: settings?.pomodoroWork ?? 25,
           pomodoroBreak: settings?.pomodoroBreak ?? 5,
           digestEnabled: settings?.digestEnabled ?? true,
+          emailEnabled: settings?.emailEnabled ?? true,
           reminderLead24h: settings?.reminderLead24h ?? true,
           reminderLead3h: settings?.reminderLead3h ?? true,
           reminderLead1h: settings?.reminderLead1h ?? true,

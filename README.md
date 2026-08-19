@@ -39,9 +39,10 @@
 - Attendance tracking per course (present / absent / excused) with threshold alerts.
 
 ### 🔔 Reminders & Notifications
-- In-app deadline reminders at **24h / 3h / 1h** before due.
-- Configurable 7:00 AM daily digest.
-- Multi-channel architecture (in-app, email, push, webhook) ready for provider backends.
+- In-app **and email** deadline reminders at **24h / 3h / 1h** before due (powered by [Resend](https://resend.com)).
+- Configurable 7:00 AM daily digest (in-app + email).
+- Per-user toggle to enable/disable email notifications.
+- Multi-channel architecture (in-app, email, push, webhook) ready for additional provider backends.
 
 ### ⚙️ Personalization
 - Routine templates: **Standard Week**, **Exam Season**, **Holiday/Break**.
@@ -61,6 +62,7 @@
 | Data Fetch  | TanStack Query · Server Actions                                            |
 | Calendar    | FullCalendar (daygrid · timegrid · list · interaction)                     |
 | Auth        | JWT sessions ([jose](https://github.com/panva/jose)) + bcryptjs            |
+| Email       | [Resend](https://resend.com)                                              |
 | Validation  | Zod                                                                        |
 | Scheduling  | node-cron (reminder/digest jobs)                                           |
 | Dates       | date-fns                                                                   |
@@ -115,6 +117,8 @@ cp .env.example .env
 #   - Set DATABASE_URL to your PostgreSQL connection string
 #   - Set SESSION_SECRET to a random 32-byte secret:
 #     openssl rand -base64 32
+#   - (Optional) Set RESEND_API_KEY to enable email reminders; until set,
+#     email notifications are skipped and only logged.
 
 # 4. Set up the database schema
 npm run db:push
@@ -152,7 +156,7 @@ npm i -g vercel
 vercel --prod
 ```
 
-Add `DATABASE_URL` and `SESSION_SECRET` to your Vercel environment variables, then deploy. The production deployment lives at **https://studysync-orpin-six.vercel.app**.
+Add `DATABASE_URL`, `SESSION_SECRET`, and (for email reminders) `RESEND_API_KEY` to your Vercel environment variables, then deploy. The production deployment lives at **https://studysync-orpin-six.vercel.app**.
 
 ---
 

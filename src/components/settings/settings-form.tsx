@@ -30,6 +30,7 @@ type SettingsData = {
   pomodoroWork: number;
   pomodoroBreak: number;
   digestEnabled: boolean;
+  emailEnabled: boolean;
   reminderLead24h: boolean;
   reminderLead3h: boolean;
   reminderLead1h: boolean;
@@ -163,10 +164,15 @@ export function SettingsForm({
         <CardHeader>
           <CardTitle>Reminders</CardTitle>
           <CardDescription>
-            Deadlines generate in-app notifications; email/push/webhook use the provider stubs.
+            Deadline reminders arrive in-app and via email when enabled.
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-3">
+          <ToggleRow
+            name="emailEnabled"
+            label="Email notifications"
+            defaultChecked={settings.emailEnabled}
+          />
           <ToggleRow
             name="reminderLead24h"
             label="24-hour deadline reminder"

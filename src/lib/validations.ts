@@ -78,6 +78,7 @@ export const settingsSchema = z.object({
   pomodoroWork: z.coerce.number().int().min(5).max(120).default(25),
   pomodoroBreak: z.coerce.number().int().min(1).max(60).default(5),
   digestEnabled: z.coerce.boolean().default(true),
+  emailEnabled: z.coerce.boolean().default(true),
   reminderLead24h: z.coerce.boolean().default(true),
   reminderLead3h: z.coerce.boolean().default(true),
   reminderLead1h: z.coerce.boolean().default(true),

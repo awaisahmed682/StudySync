@@ -47,7 +47,11 @@ async function createNotification(input: {
   return notification ? true : false;
 }
 
-async function dispatch(userId: string, message: DispatchInput) {
+async function dispatch(
+  userId: string,
+  message: DispatchInput,
+  options: { email?: boolean } = {}
+) {
   const user = await prisma.user.findUnique({
     where: { id: userId },
     select: { email: true, name: true },
@@ -56,6 +60,7 @@ async function dispatch(userId: string, message: DispatchInput) {
 
   const providers = getProviders();
   for (const provider of providers) {
+    if (provider.channel === "EMAIL" && options.email === false) continue;
     await provider.send({
       userId,
       email: user.email,
@@ -112,13 +117,17 @@ export async function runUserReminderCheck(userId: string) {
         dedupeKey: dedupe,
       });
       if (created) {
-        await dispatch(userId, {
-          type: "DEADLINE",
-          title: `Reminder: ${task.title}`,
-          body: bodyForTask(task.title, task.course.courseCode, h, task.dueDate),
-          taskId: task.id,
-          dedupeKey: dedupe,
-        });
+        await dispatch(
+          userId,
+          {
+            type: "DEADLINE",
+            title: `Reminder: ${task.title}`,
+            body: bodyForTask(task.title, task.course.courseCode, h, task.dueDate),
+            taskId: task.id,
+            dedupeKey: dedupe,
+          },
+          { email: settings?.emailEnabled }
+        );
       }
     }
   }
@@ -230,12 +239,16 @@ export async function runDailyDigest(userId: string) {
     dedupeKey: dedupe,
   });
 
-  await dispatch(userId, {
-    type: "DIGEST",
-    title: "Daily study digest",
-    body: lines,
-    dedupeKey: dedupe,
-  });
+  await dispatch(
+    userId,
+    {
+      type: "DIGEST",
+      title: "Daily study digest",
+      body: lines,
+      dedupeKey: dedupe,
+    },
+    { email: settings?.emailEnabled }
+  );
 }
 
 export async function runAllUsers() {

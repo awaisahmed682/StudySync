@@ -91,6 +91,7 @@ model UserSettings {
   pomodoroWork       Int         @default(25)
   pomodoroBreak      Int         @default(5)
   digestEnabled      Boolean     @default(true)
+  emailEnabled       Boolean     @default(true)
   reminderLead24h    Boolean     @default(true)
   reminderLead3h     Boolean     @default(true)
   reminderLead1h     Boolean     @default(true)
