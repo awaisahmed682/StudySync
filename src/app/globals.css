@@ -1,0 +1,478 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+@custom-variant dark (&:is(.dark *));
+
+@utility scrollbar-hidden {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-sans);
+  --font-mono: var(--font-geist-mono);
+  --font-heading: var(--font-sans);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
+}
+
+:root {
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.145 0 0);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.145 0 0);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.145 0 0);
+  --primary: oklch(0.205 0 0);
+  --primary-foreground: oklch(0.985 0 0);
+  --secondary: oklch(0.97 0 0);
+  --secondary-foreground: oklch(0.205 0 0);
+  --muted: oklch(0.97 0 0);
+  --muted-foreground: oklch(0.556 0 0);
+  --accent: oklch(0.97 0 0);
+  --accent-foreground: oklch(0.205 0 0);
+  --destructive: oklch(0.577 0.245 27.325);
+  --border: oklch(0.922 0 0);
+  --input: oklch(0.922 0 0);
+  --ring: oklch(0.708 0 0);
+  --chart-1: oklch(0.87 0 0);
+  --chart-2: oklch(0.556 0 0);
+  --chart-3: oklch(0.439 0 0);
+  --chart-4: oklch(0.371 0 0);
+  --chart-5: oklch(0.269 0 0);
+  --radius: 0.625rem;
+  --sidebar: oklch(0.985 0 0);
+  --sidebar-foreground: oklch(0.145 0 0);
+  --sidebar-primary: oklch(0.205 0 0);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.97 0 0);
+  --sidebar-accent-foreground: oklch(0.205 0 0);
+  --sidebar-border: oklch(0.922 0 0);
+  --sidebar-ring: oklch(0.708 0 0);
+}
+
+.dark {
+  --background: oklch(0.145 0 0);
+  --foreground: oklch(0.985 0 0);
+  --card: oklch(0.205 0 0);
+  --card-foreground: oklch(0.985 0 0);
+  --popover: oklch(0.205 0 0);
+  --popover-foreground: oklch(0.985 0 0);
+  --primary: oklch(0.922 0 0);
+  --primary-foreground: oklch(0.205 0 0);
+  --secondary: oklch(0.269 0 0);
+  --secondary-foreground: oklch(0.985 0 0);
+  --muted: oklch(0.269 0 0);
+  --muted-foreground: oklch(0.708 0 0);
+  --accent: oklch(0.269 0 0);
+  --accent-foreground: oklch(0.985 0 0);
+  --destructive: oklch(0.704 0.191 22.216);
+  --border: oklch(1 0 0 / 10%);
+  --input: oklch(1 0 0 / 15%);
+  --ring: oklch(0.556 0 0);
+  --chart-1: oklch(0.87 0 0);
+  --chart-2: oklch(0.556 0 0);
+  --chart-3: oklch(0.439 0 0);
+  --chart-4: oklch(0.371 0 0);
+  --chart-5: oklch(0.269 0 0);
+  --sidebar: oklch(0.205 0 0);
+  --sidebar-foreground: oklch(0.985 0 0);
+  --sidebar-primary: oklch(0.488 0.243 264.376);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.269 0 0);
+  --sidebar-accent-foreground: oklch(0.985 0 0);
+  --sidebar-border: oklch(1 0 0 / 10%);
+  --sidebar-ring: oklch(0.556 0 0);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+  button:not(:disabled), [role="button"]:not(:disabled) {
+    cursor: pointer;
+  }
+  html {
+    @apply font-sans;
+  }
+}
+
+/* ─── FullCalendar theme (matches the app design system) ─────────────────── */
+.cal-shell .fc {
+  --fc-border-color: var(--border);
+  --fc-page-bg-color: var(--background);
+  --fc-neutral-text-color: var(--muted-foreground);
+  --fc-today-bg-color: color-mix(in oklab, var(--primary) 8%, transparent);
+  --fc-highlight-color: var(--accent);
+  --fc-now-indicator-color: var(--destructive);
+  --fc-button-bg-color: var(--secondary);
+  --fc-button-border-color: var(--border);
+  --fc-button-text-color: var(--secondary-foreground);
+  --fc-button-hover-bg-color: var(--accent);
+  --fc-button-hover-border-color: var(--border);
+  --fc-button-active-bg-color: var(--primary);
+  --fc-button-active-border-color: var(--primary);
+  --fc-event-border-color: transparent;
+  --fc-event-bg-color: var(--muted-foreground);
+  --fc-event-text-color: var(--foreground);
+  --fc-event-border-width: 0;
+  --fc-event-resizer-thickness: 4px;
+  --fc-small-font-size: 0.8rem;
+  font-family: var(--font-sans);
+  color: var(--foreground);
+}
+
+.cal-shell .fc .fc-toolbar-title {
+  font-size: 1.05rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--foreground);
+}
+
+.cal-shell .fc .fc-button {
+  border-radius: calc(var(--radius) - 2px);
+  border-width: 1px;
+  box-shadow: none;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  line-height: 1.2;
+  padding: 0.375rem 0.75rem;
+  text-transform: none;
+}
+.cal-shell .fc .fc-button:not(:disabled):hover {
+  background-color: color-mix(in oklab, var(--secondary) 80%, var(--foreground) 20%);
+  border-color: var(--border);
+  color: var(--secondary-foreground);
+}
+.dark .cal-shell .fc .fc-button:not(:disabled):hover {
+  background-color: color-mix(in oklab, var(--secondary) 90%, var(--foreground) 10%);
+  border-color: var(--border);
+  color: var(--secondary-foreground);
+}
+.cal-shell .fc .fc-button-primary:not(:disabled).fc-button-active,
+.cal-shell .fc .fc-button-primary:not(:disabled):active {
+  background-color: var(--primary) !important;
+  border-color: var(--primary) !important;
+  color: var(--primary-foreground) !important;
+}
+.cal-shell .fc .fc-button-primary:not(:disabled).fc-button-active:hover,
+.cal-shell .fc .fc-button-primary:not(:disabled):active:hover {
+  background-color: var(--primary) !important;
+  border-color: var(--primary) !important;
+  color: var(--primary-foreground) !important;
+}
+.cal-shell .fc .fc-button:not(:disabled):focus {
+  box-shadow: 0 0 0 2px var(--background), 0 0 0 4px var(--ring);
+  outline: none;
+}
+.cal-shell .fc .fc-button:disabled {
+  opacity: 0.45;
+}
+.cal-shell .fc .fc-button-group > .fc-button {
+  box-shadow: none;
+}
+
+.cal-shell .fc .fc-scrollgrid {
+  border-radius: calc(var(--radius) - 2px);
+  overflow: hidden;
+}
+
+.cal-shell .fc .fc-col-header-cell {
+  background: var(--card);
+  color: var(--muted-foreground);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  padding: 0.375rem 0;
+  text-transform: uppercase;
+}
+.cal-shell .fc .fc-col-header-cell-cushion {
+  padding: 0.25rem 0.375rem;
+}
+.cal-shell .fc .fc-daygrid-day-number,
+.cal-shell .fc .fc-daygrid-week-number {
+  color: var(--muted-foreground);
+}
+.cal-shell .fc .fc-day-today .fc-daygrid-day-number {
+  color: var(--foreground);
+  font-weight: 700;
+}
+.cal-shell .fc .fc-timegrid-slot-label-cushion,
+.cal-shell .fc .fc-timegrid-axis-cushion {
+  color: var(--muted-foreground);
+}
+.cal-shell .fc .fc-timegrid-now-indicator-line,
+.cal-shell .fc .fc-timegrid-now-indicator-arrow {
+  border-color: var(--destructive);
+  color: var(--destructive);
+}
+
+.cal-shell .fc .fc-event {
+  border-radius: 6px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  overflow: hidden;
+  padding: 1px 3px;
+}
+.cal-shell .fc .fc-event .fc-event-main {
+  overflow: hidden;
+  padding: 1px 2px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.cal-shell .fc .fc-event .fc-event-title {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.cal-shell .fc .fc-timegrid-event .fc-event-time {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.cal-shell .fc .fc-timegrid-event {
+  flex-shrink: 1;
+  min-width: 0;
+}
+.cal-shell .fc .fc-daygrid-event {
+  margin-top: 1px;
+  margin-bottom: 1px;
+}
+
+/* Study blocks / fixed classes — high-contrast neutral chip, light & dark */
+.cal-shell .fc .fc-event.cal-schedule {
+  background-color: #e4e4e7;
+  border: 1px solid #d4d4d8;
+  border-left-width: 3px;
+  border-left-color: #71717a;
+  color: #18181b;
+}
+.dark .cal-shell .fc .fc-event.cal-schedule {
+  background-color: #3f3f46;
+  border-color: #52525b;
+  border-left-color: #a1a1aa;
+  color: #fafafa;
+}
+.cal-shell .fc .fc-event.cal-schedule .fc-event-main,
+.cal-shell .fc .fc-event.cal-schedule .fc-event-title,
+.cal-shell .fc .fc-event.cal-schedule .fc-event-time {
+  color: #18181b;
+}
+.dark .cal-shell .fc .fc-event.cal-schedule .fc-event-main,
+.dark .cal-shell .fc .fc-event.cal-schedule .fc-event-title,
+.dark .cal-shell .fc .fc-event.cal-schedule .fc-event-time {
+  color: #fafafa;
+}
+
+/* Deadlines — course color as a solid accent bar + tinted face, readable text */
+.cal-shell .fc .fc-event.cal-deadline {
+  border-left-width: 3px;
+}
+.cal-shell .fc .fc-event.cal-deadline .fc-event-main,
+.cal-shell .fc .fc-event.cal-deadline .fc-event-title,
+.cal-shell .fc .fc-event.cal-deadline .fc-event-time {
+  color: var(--foreground);
+}
+.cal-shell .fc .fc-event.cal-deadline .cal-deadline-time {
+  color: var(--muted-foreground);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  margin-left: 4px;
+}
+
+.cal-shell .fc .fc-list-day-cushion {
+  background: var(--muted);
+  color: var(--muted-foreground);
+}
+.cal-shell .fc .fc-list-event:hover td {
+  background-color: var(--accent);
+}
+.cal-shell .fc .fc-list-event {
+  border-color: var(--border);
+}
+.cal-shell .fc .fc-list-event-time {
+  color: var(--muted-foreground);
+}
+
+.cal-shell .fc .fc-highlight {
+  background-color: var(--accent);
+  opacity: 0.6;
+}
+
+/* ─── Motion / smooth animations ────────────────────────────────────────── */
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes scale-in {
+  from {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.animate-fade-in-up {
+  animation: fade-in-up 0.55s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+.animate-fade-in {
+  animation: fade-in 0.4s ease both;
+}
+.animate-scale-in {
+  animation: scale-in 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.stagger-1 {
+  animation-delay: 70ms;
+}
+.stagger-2 {
+  animation-delay: 140ms;
+}
+.stagger-3 {
+  animation-delay: 210ms;
+}
+.stagger-4 {
+  animation-delay: 280ms;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  /* Smooth color theme switching on key surfaces */
+  body,
+  header,
+  aside,
+  [data-slot="sidebar"] {
+    transition:
+      background-color 0.3s ease,
+      color 0.3s ease,
+      border-color 0.3s ease;
+  }
+  [data-slot="card"] {
+    transition:
+      transform 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+      box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  main [data-slot="card"]:hover {
+    transform: translateY(-2px);
+    box-shadow:
+      0 12px 28px -14px color-mix(in oklab, var(--foreground) 28%, transparent),
+      0 2px 8px -4px color-mix(in oklab, var(--foreground) 18%, transparent);
+  }
+  .cal-shell .fc .fc-event,
+  .cal-shell .fc .fc-button {
+    transition:
+      background-color 0.2s ease,
+      border-color 0.2s ease,
+      color 0.2s ease,
+      opacity 0.2s ease;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-fade-in-up,
+  .animate-fade-in,
+  .animate-scale-in {
+    animation: none;
+  }
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+/* ─── Mobile: calendar toolbar wraps and compacts ───────────────────────── */
+@media (max-width: 767px) {
+  .cal-shell {
+    min-width: 0;
+    overflow-x: hidden;
+  }
+  .cal-shell .fc .fc-toolbar.fc-header-toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    row-gap: 0.375rem;
+  }
+  .cal-shell .fc .fc-toolbar.fc-header-toolbar > .fc-toolbar-chunk {
+    min-width: 0;
+    flex: 0 1 auto;
+  }
+  .cal-shell .fc .fc-toolbar.fc-header-toolbar > .fc-toolbar-chunk:has(.fc-toolbar-title) {
+    order: -1;
+    flex-basis: 100%;
+    justify-content: center;
+  }
+  .cal-shell .fc .fc-toolbar-title {
+    font-size: 0.9rem;
+    margin: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .cal-shell .fc .fc-button {
+    font-size: 0.75rem;
+    line-height: 1.1;
+    padding: 0.25rem 0.5rem;
+  }
+  .cal-shell .fc .fc-button-group > .fc-button {
+    padding: 0.25rem 0.5rem;
+  }
+}

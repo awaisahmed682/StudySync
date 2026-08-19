@@ -1,0 +1,220 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum TaskType {
+  QUIZ
+  ASSIGNMENT
+  LAB
+  PAPER
+  MIDTERM
+  FINAL
+  PROJECT
+}
+
+enum TaskStatus {
+  PENDING
+  IN_PROGRESS
+  SUBMITTED
+  GRADED
+}
+
+enum ScheduleType {
+  FIXED
+  DYNAMIC
+}
+
+enum RoutineMode {
+  STANDARD
+  EXAM
+  HOLIDAY
+}
+
+enum AttendanceStatus {
+  PRESENT
+  ABSENT
+  EXCUSED
+}
+
+enum ResourceType {
+  NOTES
+  PAST_PAPER
+  LINK
+  FILE
+}
+
+enum NotificationChannel {
+  IN_APP
+  EMAIL
+  PUSH
+  WEBHOOK
+}
+
+enum NotificationType {
+  DEADLINE
+  DIGEST
+  ATTENDANCE
+  GPA
+  SYSTEM
+}
+
+model User {
+  id            String          @id @default(cuid())
+  email         String          @unique
+  name          String
+  passwordHash  String?
+  image         String?
+  targetGpa     Float           @default(3.0)
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
+  courses       Course[]
+  schedules     StudySchedule[]
+  focusSessions FocusSession[]
+  notifications Notification[]
+  settings      UserSettings?
+  calendarFeeds CalendarFeed[]
+}
+
+model UserSettings {
+  id                 String      @id @default(cuid())
+  userId             String      @unique
+  user               User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  routineMode        RoutineMode @default(STANDARD)
+  timezone           String      @default("UTC")
+  attendanceThreshold Float      @default(75.0)
+  gpaScale           Float       @default(4.0)
+  pomodoroWork       Int         @default(25)
+  pomodoroBreak      Int         @default(5)
+  digestEnabled      Boolean     @default(true)
+  reminderLead24h    Boolean     @default(true)
+  reminderLead3h     Boolean     @default(true)
+  reminderLead1h     Boolean     @default(true)
+}
+
+model Course {
+  id              String   @id @default(cuid())
+  userId          String
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  courseCode      String
+  courseName      String
+  colorHex        String   @default("#6366f1")
+  creditHours     Int      @default(3)
+  instructorEmail String?
+  officeHours     String?
+  syllabusUrl     String?
+  gradingCriteria String?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  tasks           AcademicTask[]
+  attendance      AttendanceRecord[]
+  resources       Resource[]
+
+  @@unique([userId, courseCode])
+}
+
+model AcademicTask {
+  id               String         @id @default(cuid())
+  courseId         String
+  course           Course         @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  title            String
+  type             TaskType       @default(ASSIGNMENT)
+  dueDate          DateTime
+  portalUrl        String?
+  weightPercentage Float
+  status           TaskStatus     @default(PENDING)
+  gradeAchieved    Float?
+  difficulty       Int            @default(3)
+  notes            String?
+  createdAt        DateTime       @default(now())
+  updatedAt        DateTime       @updatedAt
+  subtasks         SubTask[]
+  schedules        StudySchedule[]
+  focusSessions    FocusSession[]
+  notifications    Notification[]
+}
+
+model SubTask {
+  id         String       @id @default(cuid())
+  taskId     String
+  task       AcademicTask @relation(fields: [taskId], references: [id], onDelete: Cascade)
+  title      String
+  dueDate    DateTime
+  status     TaskStatus   @default(PENDING)
+  orderIndex Int          @default(0)
+}
+
+model StudySchedule {
+  id            String         @id @default(cuid())
+  userId        String
+  user          User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  title         String
+  type          ScheduleType   @default(FIXED)
+  dayOfWeek     Int?
+  startTime     DateTime
+  endTime       DateTime
+  isRecurring   Boolean        @default(false)
+  relatedTaskId String?
+  relatedTask   AcademicTask?  @relation(fields: [relatedTaskId], references: [id], onDelete: SetNull)
+}
+
+model FocusSession {
+  id              String        @id @default(cuid())
+  userId          String
+  user            User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  taskId          String?
+  task            AcademicTask? @relation(fields: [taskId], references: [id], onDelete: SetNull)
+  startedAt       DateTime      @default(now())
+  endedAt         DateTime?
+  durationMinutes Int
+  pomodoros       Int           @default(0)
+}
+
+model AttendanceRecord {
+  id       String           @id @default(cuid())
+  courseId String
+  course   Course           @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  date     DateTime         @db.Date
+  status   AttendanceStatus @default(PRESENT)
+  notes    String?
+
+  @@unique([courseId, date])
+}
+
+model Resource {
+  id        String   @id @default(cuid())
+  courseId  String
+  course    Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  title     String
+  url       String
+  type      ResourceType @default(LINK)
+  createdAt DateTime @default(now())
+}
+
+model Notification {
+  id        String              @id @default(cuid())
+  userId    String
+  user      User                @relation(fields: [userId], references: [id], onDelete: Cascade)
+  taskId    String?
+  task      AcademicTask?       @relation(fields: [taskId], references: [id], onDelete: SetNull)
+  channel   NotificationChannel @default(IN_APP)
+  type      NotificationType    @default(SYSTEM)
+  title     String
+  body      String
+  readAt    DateTime?
+  createdAt DateTime            @default(now())
+  dedupeKey String?             @unique
+}
+
+model CalendarFeed {
+  id            String    @id @default(cuid())
+  userId        String
+  user          User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  provider      String
+  feedUrl       String?
+  lastSyncedAt  DateTime?
+}
