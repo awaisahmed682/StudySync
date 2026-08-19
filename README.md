@@ -4,6 +4,8 @@
 
 **StudySync** is a full-stack academic management platform for university students. It unifies deadline tracking, an intelligent study-schedule generator, course analytics, attendance records, GPA prediction, and a Pomodoro focus timer in one responsive, dark-mode-ready web app.
 
+🔗 **Live website:** [https://studysync-orpin-six.vercel.app](https://studysync-orpin-six.vercel.app)
+
 ---
 
 ## ✨ Features
