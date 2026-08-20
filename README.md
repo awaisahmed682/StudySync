@@ -39,7 +39,8 @@
 - Attendance tracking per course (present / absent / excused) with threshold alerts.
 
 ### 🔔 Reminders & Notifications
-- In-app **and email** deadline reminders at **24h / 3h / 1h** before due (powered by [Resend](https://resend.com)).
+- In-app **and email** deadline reminders at **24h / 3h / 1h** before due.
+- Email delivery via **SMTP** (any provider, reaches every user's inbox) or **Resend**.
 - Configurable 7:00 AM daily digest (in-app + email).
 - Per-user toggle to enable/disable email notifications.
 - Multi-channel architecture (in-app, email, push, webhook) ready for additional provider backends.
@@ -62,7 +63,7 @@
 | Data Fetch  | TanStack Query · Server Actions                                            |
 | Calendar    | FullCalendar (daygrid · timegrid · list · interaction)                     |
 | Auth        | JWT sessions ([jose](https://github.com/panva/jose)) + bcryptjs            |
-| Email       | [Resend](https://resend.com)                                              |
+| Email       | nodemailer (SMTP) · Resend                                             |
 | Validation  | Zod                                                                        |
 | Scheduling  | node-cron (reminder/digest jobs)                                           |
 | Dates       | date-fns                                                                   |
@@ -117,8 +118,9 @@ cp .env.example .env
 #   - Set DATABASE_URL to your PostgreSQL connection string
 #   - Set SESSION_SECRET to a random 32-byte secret:
 #     openssl rand -base64 32
-#   - (Optional) Set RESEND_API_KEY to enable email reminders; until set,
-#     email notifications are skipped and only logged.
+#   - (Optional) Configure email reminders. SMTP is preferred so every user
+#     gets reminders; set SMTP_HOST, SMTP_PORT, SMTP_USER and SMTP_PASS.
+#     For Gmail use an App Password (not your normal password).
 
 # 4. Set up the database schema
 npm run db:push
@@ -156,7 +158,7 @@ npm i -g vercel
 vercel --prod
 ```
 
-Add `DATABASE_URL`, `SESSION_SECRET`, and (for email reminders) `RESEND_API_KEY` to your Vercel environment variables, then deploy. The production deployment lives at **https://studysync-orpin-six.vercel.app**.
+Add `DATABASE_URL`, `SESSION_SECRET`, and (for email reminders) `SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASS` to your Vercel environment variables, then deploy. The production deployment lives at **https://studysync-orpin-six.vercel.app**.
 
 ---
 

@@ -1,5 +1,6 @@
 import "server-only";
 
+import nodemailer from "nodemailer";
 import type {
   Notification,
   NotificationChannel,
@@ -140,8 +141,70 @@ export class EmailProvider implements NotificationProvider {
   }
 }
 
+/**
+ * Email provider backed by generic SMTP (nodemailer). Any SMTP account can
+ * deliver to any recipient, so every signed-in user receives reminders.
+ * Requires SMTP_HOST, SMTP_USER and SMTP_PASS (use an App Password for
+ * Gmail). Port 465 → implicit TLS; port 587 → STARTTLS.
+ *
+ * Falls back to Noop-style logging when SMTP isn't configured.
+ */
+export class SmtpProvider implements NotificationProvider {
+  channel: NotificationChannel = "EMAIL";
+  private transport: nodemailer.Transporter | null = null;
+  private from: string;
+
+  constructor() {
+    const host = process.env.SMTP_HOST;
+    const user = process.env.SMTP_USER;
+    const pass = process.env.SMTP_PASS;
+    if (host && user && pass) {
+      const port = Number(process.env.SMTP_PORT ?? 465);
+      this.transport = nodemailer.createTransport({
+        host,
+        port,
+        secure: port === 465,
+        auth: { user, pass },
+      });
+    }
+    this.from = process.env.EMAIL_FROM ?? `StudySync <${user ?? "notifications@studysync.app"}>`;
+  }
+
+  static isConfigured(): boolean {
+    return Boolean(
+      process.env.SMTP_HOST && process.env.SMTP_USER && process.env.SMTP_PASS
+    );
+  }
+
+  async send(message: DispatchMessage) {
+    if (!this.transport) {
+      console.log(
+        `[EMAIL][STUB] -> ${message.email}: ${message.title} — ${message.body} (set SMTP_HOST/SMTP_USER/SMTP_PASS to enable)`
+      );
+      return true;
+    }
+
+    try {
+      await this.transport.sendMail({
+        from: this.from,
+        to: message.email,
+        subject: `${message.title} — StudySync`,
+        html: emailTemplate(message.title, message.body, message.name),
+      });
+      return true;
+    } catch (e) {
+      console.error(`[EMAIL][SMTP] Failed to send to ${message.email}:`, e);
+      return false;
+    }
+  }
+}
+
 export function getProviders(): NotificationProvider[] {
-  return [new EmailProvider(), new NoopProvider("PUSH"), new NoopProvider("WEBHOOK")];
+  const email: NotificationProvider = SmtpProvider.isConfigured()
+    ? new SmtpProvider()
+    : new EmailProvider();
+
+  return [email, new NoopProvider("PUSH"), new NoopProvider("WEBHOOK")];
 }
 
 /** Convenience for the engine: serialize a Notification row for transport. */
