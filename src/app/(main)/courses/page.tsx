@@ -33,7 +33,7 @@ export default async function CoursesPage() {
         <div>
           <h1 className="text-2xl font-bold tracking-tight">Course Hub</h1>
           <p className="text-sm text-muted-foreground">
-            {courses.length} courses · manage syllabi, grades, attendance and resources.
+            {courses.length} courses · manage courses, grades, attendance and resources.
           </p>
         </div>
         <CourseListClient />
