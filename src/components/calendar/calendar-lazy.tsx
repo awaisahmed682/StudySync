@@ -1,7 +1,10 @@
 "use client";
 
 import dynamic from "next/dynamic";
+import { useEffect } from "react";
+import { useQueryClient } from "@tanstack/react-query";
 import { Skeleton } from "@/components/ui/skeleton";
+import { fetchSchedules, schedulesQueryKey } from "./schedules-query";
 
 const CalendarView = dynamic(
   () => import("@/components/calendar/calendar-view").then((m) => m.CalendarView),
@@ -34,5 +37,14 @@ function CalendarLoading() {
 }
 
 export function CalendarLazy() {
+  const queryClient = useQueryClient();
+
+  useEffect(() => {
+    void queryClient.prefetchQuery({
+      queryKey: schedulesQueryKey,
+      queryFn: fetchSchedules,
+    });
+  }, [queryClient]);
+
   return <CalendarView />;
 }

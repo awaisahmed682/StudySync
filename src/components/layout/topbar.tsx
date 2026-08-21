@@ -6,6 +6,7 @@ import { useTheme } from "@/components/providers/theme-provider";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { MobileSidebar } from "@/components/layout/mobile-sidebar";
+import { LogoMark } from "@/components/layout/logo";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -52,9 +53,7 @@ export function Topbar({
           <MobileSidebar />
         </div>
         <Link href="/" className="flex items-center gap-2">
-          <span className="grid h-8 w-8 place-items-center rounded-lg bg-primary text-primary-foreground">
-            S
-          </span>
+          <LogoMark />
           <span className="text-lg font-bold tracking-tight">StudySync</span>
         </Link>
       </div>

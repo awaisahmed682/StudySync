@@ -27,32 +27,11 @@ import {
 } from "@/lib/actions/schedules";
 import { formatDateTime, formatTime } from "@/lib/constants";
 import { cn } from "@/lib/utils";
-
-type ExtendedProps = {
-  kind: "schedule" | "task";
-  scheduleId?: string;
-  scheduleType?: string;
-  recurring?: boolean;
-  taskId?: string;
-  courseId?: string;
-  status?: string;
-  weightPercentage?: number;
-  portalUrl?: string | null;
-  dueDate?: string;
-};
-
-type ApiEvent = {
-  id: string;
-  title: string;
-  start: string;
-  end: string;
-  allDay: boolean;
-  backgroundColor?: string;
-  borderColor?: string;
-  textColor?: string;
-  className?: string;
-  extendedProps: ExtendedProps;
-};
+import {
+  fetchSchedules,
+  schedulesQueryKey,
+  type ExtendedProps,
+} from "./schedules-query";
 
 type SelectedEvent = ExtendedProps & {
   title: string;
@@ -96,16 +75,9 @@ export function CalendarView() {
   const initialView = isNarrow ? "dayGridMonth" : "timeGridWeek";
 
   const { data, isLoading } = useQuery({
-    queryKey: ["schedules"],
-    queryFn: async () => {
-      const start = new Date(Date.now() - 7 * 864e5).toISOString();
-      const end = new Date(Date.now() + 90 * 864e5).toISOString();
-      const res = await fetch(
-        `/api/schedules?start=${encodeURIComponent(start)}&end=${encodeURIComponent(end)}`
-      );
-      if (!res.ok) throw new Error("Failed to load schedule");
-      return (await res.json()) as { events: ApiEvent[] };
-    },
+    queryKey: schedulesQueryKey,
+    queryFn: fetchSchedules,
+    staleTime: 5 * 60 * 1000,
   });
 
   const events = useMemo(
@@ -126,7 +98,7 @@ export function CalendarView() {
   );
 
   const refetch = () => {
-    queryClient.invalidateQueries({ queryKey: ["schedules"] });
+    queryClient.invalidateQueries({ queryKey: schedulesQueryKey });
   };
 
   const handleEventClick = useCallback((arg: EventClickArg) => {
@@ -244,13 +216,13 @@ export function CalendarView() {
         </div>
       </div>
 
-      <div className="cal-shell rounded-lg border p-2 shadow-sm sm:p-4">
-        {isLoading ? (
-          <div className="grid h-64 place-items-center text-sm text-muted-foreground">
+      <div className="cal-shell relative rounded-lg border p-2 shadow-sm sm:p-4">
+        {isLoading && (
+          <div className="absolute inset-0 z-10 grid place-items-center rounded-lg bg-background/60 text-sm text-muted-foreground">
             Loading schedule…
           </div>
-        ) : (
-          <FullCalendar
+        )}
+        <FullCalendar
             plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin, listPlugin]}
             headerToolbar={headerToolbar}
             initialView={initialView}
@@ -277,7 +249,6 @@ export function CalendarView() {
             allDaySlot
             firstDay={1}
           />
-        )}
       </div>
 
       <Dialog open={selected != null} onOpenChange={(open) => !open && setSelected(null)}>

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { LogoMark } from "@/components/layout/logo";
 
 export const metadata: Metadata = { title: "Sign in" };
 
@@ -10,9 +11,7 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
         href="/login"
         className="animate-fade-in-up mb-6 flex items-center gap-2 text-2xl font-bold tracking-tight"
       >
-        <span className="grid h-9 w-9 place-items-center rounded-lg bg-primary text-primary-foreground">
-          S
-        </span>
+        <LogoMark className="h-9 w-9" />
         StudySync
       </Link>
       <div className="animate-fade-in-up stagger-1 w-full max-w-md">{children}</div>

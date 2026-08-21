@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import { navItems } from "./nav-items";
+import { LogoMark } from "./logo";
 
 export function MobileSidebar() {
   const pathname = usePathname();
@@ -33,9 +34,7 @@ export function MobileSidebar() {
           href="/"
           className="flex shrink-0 items-center gap-2 border-b px-6 py-5 text-xl font-bold"
         >
-          <span className="grid h-8 w-8 place-items-center rounded-lg bg-primary text-sm text-primary-foreground">
-            S
-          </span>
+          <LogoMark />
           StudySync
         </Link>
         <nav className="flex-1 space-y-1 overflow-y-auto px-3 py-2">

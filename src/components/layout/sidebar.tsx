@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { navItems } from "./nav-items";
+import { LogoMark } from "./logo";
 
 export function Sidebar() {
   const pathname = usePathname();
@@ -14,9 +15,7 @@ export function Sidebar() {
         href="/"
         className="flex shrink-0 items-center gap-2 px-6 py-5 text-xl font-bold"
       >
-        <span className="grid h-8 w-8 place-items-center rounded-lg bg-primary text-sm text-primary-foreground">
-          S
-        </span>
+        <LogoMark />
         StudySync
       </Link>
       <nav className="flex-1 space-y-1 overflow-y-auto px-3 py-2">
